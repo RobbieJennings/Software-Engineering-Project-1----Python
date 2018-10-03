@@ -10,46 +10,49 @@ class Node():
         return self.key
 
     def getLeftChild(self):
-        return self.left
+        return self.left.key
 
     def getRightChild(self):
-        return self.right
+        return self.right.key
 
     def getParent(self):
-        return self.parent
+        return self.parent.key
 
     def insertRight(self, newNode):
         if self.right is None:
             self.right = Node(newNode)
-            self.right.parent = self
+            newNode.parent = self
         else:
             node = Node(newNode)
             node.right = self.right
             self.right = node
-            self.right.parent = self
+            newNode.parent = self
 
     def insertLeft(self, newNode):
         if self.left is None:
             self.left = Node(newNode)
-            self.left.parent = self
+            newNode.parent = self
         else:
             node = Node(newNode)
             node.left = self.left
             self.left = node
-            self.left.parent = self
+            newNode.parent = self
 
     def printTree(self):
-        if self.getLeftChild() is not None:
-            printTree(self.getLeftChild())
-        print(self.getKey())
-        if self.getRightChild() is not None:
-            printTree(self.getRightChild())
+        if self.left is not None:
+            self.left.key.printTree()
+        print(self.key)
+        if self.right is not None:
+            self.right.key.printTree()
 
 
 class Tree():
 
     def __init__(self):
         self.root = None
+
+    def getRoot(self):
+        return self.root
 
     def setRoot(self, newNode):
         self.root = newNode
@@ -58,7 +61,13 @@ class Tree():
         self.root.printTree()
 
 
-x = Tree()
-y = Node(key=123)
-x.setRoot(newNode=y)
-x.printTree()
+tree = Tree()
+a = Node(key=1)
+b = Node(key=2)
+c = Node(key=3)
+tree.setRoot(newNode=a)
+a.insertLeft(newNode=b)
+tree.getRoot().insertRight(newNode=c)
+tree.printTree()
+print(c.getParent())
+print(tree.getRoot().getLeftChild().getParent())
