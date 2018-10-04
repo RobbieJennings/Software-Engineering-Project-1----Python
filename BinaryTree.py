@@ -36,43 +36,87 @@ class Node():
             self.left = newNode
             newNode.parent = self
 
-    def toString(self):
+    def getTreeString(self):
         string = "("
         if self.left is not None:
-            string += self.left.toString()
+            string += self.left.getTreeString()
         string += ")" + str(self.key) + "("
         if self.right is not None:
-            string += self.right.toString()
+            string += self.right.getTreeString()
         string += ")"
         return string
 
 
-class Tree():
+# Finds the path from k node to given root of the tree.
+# Stores the path in a list path[], returns true if path
+# exists otherwise false
+def findPath(root, path, k):
 
-    def __init__(self):
-        self.root = None
+    # Base Case
+    if root is None:
+        return False
 
-    def getRoot(self):
-        return self.root
+    # Store this node is path vector. The node will be
+    # removed if not in path from root to k
+    path.append(root.getKey())
 
-    def setRoot(self, newNode):
-        self.root = newNode
+    # See if the k is same as root's key
+    if root.getKey() == k:
+        return True
 
-    def printTree(self):
-        print(self.root.toString())
+    # Check if k is found in left or right subtree
+    right = root.getRightChild()
+    left = root.getLeftChild()
+    if ((left is not None and findPath(left, path, k))
+            or (right is not None and findPath(right, path, k))):
+        return True
+
+    # If not present in subtree rooted with root, remove
+    # root from path and return False
+    path.pop()
+    return False
 
 
-x = Tree()
-a = Node(key=1)
-b = Node(key=2)
-c = Node(key=3)
-d = Node(key=4)
-e = Node(key=5)
-x.setRoot(newNode=a)
-a.insertLeft(newNode=b)
-b.insertLeft(newNode=c)
-a.insertLeft(newNode=e)
-x.getRoot().insertRight(newNode=d)
-x.printTree()
-print(c.getParent().getKey())
-print(x.getRoot().getLeftChild().getParent().getKey())
+# Returns LCA if node n1, n2 are present in the given
+# binary tre otherwise return -1
+def findLCA(root, n1, n2):
+
+    # To store paths to n1 and n2 fromthe root
+    path1 = []
+    path2 = []
+
+    # Find paths from root to n1 and root to n2.
+    # If either n1 or n2 is not present , return -1
+    if (not findPath(root, path1, n1) or not findPath(root, path2, n2)):
+        return -1
+
+    # Compare the paths to get the first different value
+    i = 0
+    while(i < len(path1) and i < len(path2)):
+        if path1[i] != path2[i]:
+            break
+        i += 1
+    return path1[i - 1]
+
+
+root = Node(1)
+a = Node(2)
+b = Node(3)
+c = Node(4)
+d = Node(5)
+e = Node(6)
+f = Node(7)
+root.insertLeft(a)
+root.insertRight(b)
+a.insertLeft(c)
+a.insertRight(d)
+b.insertLeft(e)
+b.insertRight(f)
+
+print("LCA(4, 5) = %d" % (findLCA(root, 4, 5)))
+print("LCA(4, 6) = %d" % (findLCA(root, 4, 6)))
+print("LCA(3, 4) = %d" % (findLCA(root, 3, 4)))
+print("LCA(2, 4) = %d" % (findLCA(root, 2, 4)))
+
+print(root.getTreeString())
+print(root.getLeftChild().getRightChild().getParent().getParent().getKey())
