@@ -1,6 +1,3 @@
-import sys
-
-
 class Node():
 
     def __init__(self, key):
@@ -13,42 +10,41 @@ class Node():
         return self.key
 
     def getLeftChild(self):
-        return self.left.key
+        return self.left
 
     def getRightChild(self):
-        return self.right.key
+        return self.right
 
     def getParent(self):
-        return self.parent.key
+        return self.parent
 
     def insertRight(self, newNode):
         if self.right is None:
-            self.right = Node(newNode)
+            self.right = newNode
             newNode.parent = self
         else:
-            node = Node(newNode)
-            node.right = self.right
-            self.right = node
+            newNode.right = self.right
+            self.right = newNode
             newNode.parent = self
 
     def insertLeft(self, newNode):
         if self.left is None:
-            self.left = Node(newNode)
+            self.left = newNode
             newNode.parent = self
         else:
-            node = Node(newNode)
-            node.left = self.left
-            self.left = node
+            newNode.left = self.left
+            self.left = newNode
             newNode.parent = self
 
-    def writeTree(self):
-        sys.stdout.write("(")
+    def toString(self):
+        string = "("
         if self.left is not None:
-            self.left.key.writeTree()
-        sys.stdout.write(")" + str(self.key) + "(")
+            string += self.left.toString()
+        string += ")" + str(self.key) + "("
         if self.right is not None:
-            self.right.key.writeTree()
-        sys.stdout.write(")")
+            string += self.right.toString()
+        string += ")"
+        return string
 
 
 class Tree():
@@ -63,19 +59,20 @@ class Tree():
         self.root = newNode
 
     def printTree(self):
-        self.root.writeTree()
-        sys.stdout.write("\n")
+        print(self.root.toString())
 
 
-tree = Tree()
+x = Tree()
 a = Node(key=1)
 b = Node(key=2)
 c = Node(key=3)
 d = Node(key=4)
-tree.setRoot(newNode=a)
+e = Node(key=5)
+x.setRoot(newNode=a)
 a.insertLeft(newNode=b)
 b.insertLeft(newNode=c)
-tree.getRoot().insertRight(newNode=d)
-tree.printTree()
-print(c.getParent())
-print(tree.getRoot().getLeftChild().getParent())
+a.insertLeft(newNode=e)
+x.getRoot().insertRight(newNode=d)
+x.printTree()
+print(c.getParent().getKey())
+print(x.getRoot().getLeftChild().getParent().getKey())
