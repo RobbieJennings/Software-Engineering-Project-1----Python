@@ -1,3 +1,6 @@
+import sys
+
+
 class Node():
 
     def __init__(self, key):
@@ -38,12 +41,14 @@ class Node():
             self.left = node
             newNode.parent = self
 
-    def printTree(self):
+    def writeTree(self):
+        sys.stdout.write("(")
         if self.left is not None:
-            self.left.key.printTree()
-        print(self.key)
+            self.left.key.writeTree()
+        sys.stdout.write(")" + str(self.key) + "(")
         if self.right is not None:
-            self.right.key.printTree()
+            self.right.key.writeTree()
+        sys.stdout.write(")")
 
 
 class Tree():
@@ -58,16 +63,19 @@ class Tree():
         self.root = newNode
 
     def printTree(self):
-        self.root.printTree()
+        self.root.writeTree()
+        sys.stdout.write("\n")
 
 
 tree = Tree()
 a = Node(key=1)
 b = Node(key=2)
 c = Node(key=3)
+d = Node(key=4)
 tree.setRoot(newNode=a)
 a.insertLeft(newNode=b)
-tree.getRoot().insertRight(newNode=c)
+b.insertLeft(newNode=c)
+tree.getRoot().insertRight(newNode=d)
 tree.printTree()
 print(c.getParent())
 print(tree.getRoot().getLeftChild().getParent())
