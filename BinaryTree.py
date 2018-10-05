@@ -1,41 +1,53 @@
 class Node():
 
+    # constructor
     def __init__(self, key):
         self.key = key
         self.left = None
         self.right = None
         self.parent = None
 
+    # returns key
     def getKey(self):
         return self.key
 
+    # returns left child node
     def getLeftChild(self):
         return self.left
 
+    # returns right child node
     def getRightChild(self):
         return self.right
 
+    # returns parent node
     def getParent(self):
         return self.parent
 
+    # sets new node as left Child
+    # set left child as left child of new node
     def insertRight(self, newNode):
         if self.right is None:
             self.right = newNode
             newNode.parent = self
         else:
+            self.right.parent = newNode
             newNode.right = self.right
-            self.right = newNode
             newNode.parent = self
+            self.right = newNode
 
+    # sets new node as left child
+    # sets left child as left child of new node
     def insertLeft(self, newNode):
         if self.left is None:
             self.left = newNode
             newNode.parent = self
         else:
+            self.left.parent = newNode
             newNode.left = self.left
-            self.left = newNode
             newNode.parent = self
+            self.left = newNode
 
+    # returns a string representing the tree with node as root
     def getTreeString(self):
         string = "("
         if self.left is not None:
@@ -97,26 +109,3 @@ def findLCA(root, n1, n2):
             break
         i += 1
     return path1[i - 1]
-
-
-root = Node(1)
-a = Node(2)
-b = Node(3)
-c = Node(4)
-d = Node(5)
-e = Node(6)
-f = Node(7)
-root.insertLeft(a)
-root.insertRight(b)
-a.insertLeft(c)
-a.insertRight(d)
-b.insertLeft(e)
-b.insertRight(f)
-
-print("LCA(4, 5) = %d" % (findLCA(root, 4, 5)))
-print("LCA(4, 6) = %d" % (findLCA(root, 4, 6)))
-print("LCA(3, 4) = %d" % (findLCA(root, 3, 4)))
-print("LCA(2, 4) = %d" % (findLCA(root, 2, 4)))
-
-print(root.getTreeString())
-print(root.getLeftChild().getRightChild().getParent().getParent().getKey())
