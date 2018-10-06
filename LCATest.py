@@ -2,7 +2,7 @@ import unittest
 import BinaryTree
 
 
-# Tests that getting non-existant nodes returns null
+# Tests that getting a non-existant node returns null
 class TestNullNode(unittest.TestCase):
     def test(self):
         root = BinaryTree.Node(1)
@@ -144,8 +144,8 @@ class TestLCAWithRootNode(unittest.TestCase):
         root.insertLeft(a)
         root.insertRight(b)
 
-        self.assertEqual(BinaryTree.findLCA(root, root, 2), 1)
-        self.assertEqual(BinaryTree.findLCA(root, 3, root), 1)
+        self.assertEqual(BinaryTree.findLCA(root, root.getKey(), 2), 1)
+        self.assertEqual(BinaryTree.findLCA(root, 3, root.getKey()), 1)
 
 
 # Tests that Lowest Common Ancestor works when searching for the same node
