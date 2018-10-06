@@ -68,7 +68,7 @@ def findPath(root, path, k):
     if root is None:
         return False
 
-    # Store this node is path vector. The node will be
+    # Store this node in path vector. The node will be
     # removed if not in path from root to k
     path.append(root.getKey())
 
