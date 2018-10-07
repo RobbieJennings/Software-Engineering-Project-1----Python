@@ -1,31 +1,38 @@
 class Node():
+    """A node used for populating a Binary Tree"""
 
-    # constructor
     def __init__(self, key):
+        """Form a Node
+
+        Keyword arguments:
+        Key -- the key attached to the Node"""
         self.key = key
         self.left = None
         self.right = None
         self.parent = None
 
-    # returns key
     def getKey(self):
+        """Returns key"""
         return self.key
 
-    # returns left child node
     def getLeftChild(self):
+        """Returns left child Node"""
         return self.left
 
-    # returns right child node
     def getRightChild(self):
+        """Returns right child Node"""
         return self.right
 
-    # returns parent node
     def getParent(self):
+        """Returns parent Node"""
         return self.parent
 
-    # sets new node as left Child
-    # set left child as left child of new node
     def insertRight(self, newNode):
+        """Sets new node as right Child
+        set right child as right child of new node
+
+        Keyword arguments:
+        newNode -- the Node object to be iserted to the right of this Node"""
         if self.right is None:
             self.right = newNode
             newNode.parent = self
@@ -35,9 +42,12 @@ class Node():
             newNode.parent = self
             self.right = newNode
 
-    # sets new node as left child
-    # sets left child as left child of new node
     def insertLeft(self, newNode):
+        """sets new node as left Child
+        set left child as left child of new node
+
+        Keyword arguments:
+        newNode -- the Node object to be iserted to the left of this Node"""
         if self.left is None:
             self.left = newNode
             newNode.parent = self
@@ -47,8 +57,8 @@ class Node():
             newNode.parent = self
             self.left = newNode
 
-    # returns a string representing the tree with node as root
     def getTreeString(self):
+        """returns a string representing the tree with node as root"""
         string = "("
         if self.left is not None:
             string += self.left.getTreeString()
@@ -59,10 +69,16 @@ class Node():
         return string
 
 
-# Finds the path from k node to given root of the tree.
-# Stores the path in a list path[], returns true if path
-# exists otherwise false
 def findPath(root, path, k):
+    """Finds the path from k node to given root of the tree.
+    Stores the path in a list path[],
+    Returns true if path exists,
+    Otherwise Returns False
+
+    Keyword arguments:
+    root -- the Node object that represents the root of the tree
+    path -- the array in which to insert the path
+    k -- the key of the Node object intended to be reached"""
 
     # Base Case
     if root is None:
@@ -89,11 +105,17 @@ def findPath(root, path, k):
     return False
 
 
-# Returns LCA if node n1, n2 are present in the given
-# binary tre otherwise return -1
 def findLCA(root, n1, n2):
+    """Returns Lowest Common Ancestor of n1 and n2
+    if n1 and n2 are present in the given tree,
+    Otherwise returns -1
 
-    # To store paths to n1 and n2 fromthe root
+    Keyword attributes:
+    root -- the Node object that is the root of the Tree
+    n1 -- the first Node Object to search for the Lowest Common Ancestor
+    n2 -- the second Node Object to search for the Lowest Common Ancestor"""
+
+    # To store paths to n1 and n2 from the root
     path1 = []
     path2 = []
 

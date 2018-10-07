@@ -2,8 +2,9 @@ import unittest
 import BinaryTree
 
 
-# Tests that getting a non-existant node returns null
 class TestNullNode(unittest.TestCase):
+    """Tests that getting a non-existant node returns null"""
+
     def test(self):
         root = BinaryTree.Node(1)
 
@@ -11,8 +12,9 @@ class TestNullNode(unittest.TestCase):
         self.assertEqual(root.getRightChild(), None)
 
 
-# Tests that a tree containing one node works
 class TestSingleNode(unittest.TestCase):
+    """Tests that a tree containing one node works"""
+
     def test(self):
         root = BinaryTree.Node(1)
 
@@ -20,8 +22,9 @@ class TestSingleNode(unittest.TestCase):
         self.assertEqual(root.getKey(), 1)
 
 
-# Tests that inserting Leaves onto a node works
 class TestInsertingLeaves(unittest.TestCase):
+    """Tests that inserting Leaves onto a node works"""
+
     def test(self):
         root = BinaryTree.Node(1)
         a = BinaryTree.Node(2)
@@ -38,8 +41,10 @@ class TestInsertingLeaves(unittest.TestCase):
         self.assertEqual(root.getRightChild().getParent().getKey(), 1)
 
 
-# Tests inserting Leaves onto a tree containing more than one node works
 class TestInsertingLeavesOntoLeaves(unittest.TestCase):
+    """Tests inserting Leaves onto a tree
+    containing more than one node works"""
+
     def test(self):
         root = BinaryTree.Node(1)
         a = BinaryTree.Node(2)
@@ -77,8 +82,9 @@ class TestInsertingLeavesOntoLeaves(unittest.TestCase):
                          .getKey(), 3)
 
 
-# Tests that inserting nodes onto nodes with children works
 class TestInsertingBetweenNodes(unittest.TestCase):
+    """Tests that inserting nodes onto nodes with children works"""
+
     def test(self):
         root = BinaryTree.Node(1)
         a = BinaryTree.Node(2)
@@ -128,14 +134,16 @@ class TestInsertingBetweenNodes(unittest.TestCase):
                          .getParent().getKey(), 9)
 
 
-# Tests that Lowest Common Ancestor works when root is null
 class TestLCAWithNullRoot(unittest.TestCase):
+    "Tests that Lowest Common Ancestor works when root is null"""
+
     def test(self):
         self.assertEqual(BinaryTree.findLCA(None, 1, 2), -1)
 
 
-# Tests that Lowest Common Ancestor works when searching with root
 class TestLCAWithRootNode(unittest.TestCase):
+    """Tests that Lowest Common Ancestor works when searching with root"""
+
     def test(self):
         root = BinaryTree.Node(1)
         a = BinaryTree.Node(2)
@@ -148,8 +156,10 @@ class TestLCAWithRootNode(unittest.TestCase):
         self.assertEqual(BinaryTree.findLCA(root, 3, root.getKey()), 1)
 
 
-# Tests that Lowest Common Ancestor works when searching for the same node
 class TestLCAWithEqualNodes(unittest.TestCase):
+    """Tests that Lowest Common Ancestor works
+    when searching for the same node"""
+
     def test(self):
         root = BinaryTree.Node(1)
         a = BinaryTree.Node(2)
@@ -162,9 +172,10 @@ class TestLCAWithEqualNodes(unittest.TestCase):
         self.assertEqual(BinaryTree.findLCA(root, 3, 3), 3)
 
 
-# Tests that Lowest Common Ancestor works
-# when one node is already an ancestor of the other
 class TestLCAWithAncestor(unittest.TestCase):
+    """Tests that Lowest Common Ancestor works
+    when one node is already an ancestor of the other"""
+
     def test(self):
         root = BinaryTree.Node(1)
         a = BinaryTree.Node(2)
@@ -185,9 +196,10 @@ class TestLCAWithAncestor(unittest.TestCase):
         self.assertEqual(BinaryTree.findLCA(root, 3, 6), 3)
 
 
-# Tests that Lowest Common Ancestor works when
-# there exists no path from root to nodes
 class TestLCAWithNoPath(unittest.TestCase):
+    """Tests that Lowest Common Ancestor works when
+    there exists no path from root to nodes"""
+
     def test(self):
         root = BinaryTree.Node(1)
         a = BinaryTree.Node(2)
@@ -208,9 +220,10 @@ class TestLCAWithNoPath(unittest.TestCase):
         self.assertEqual(BinaryTree.findLCA(b, 6, 4), -1)
 
 
-# Tests that Lowest Common Ancestor works when
-# there exists a path from root to nodes
 class TestLCAWithPath(unittest.TestCase):
+    """Tests that Lowest Common Ancestor works when
+    there exists a path from root to nodes"""
+
     def test(self):
         root = BinaryTree.Node(1)
         a = BinaryTree.Node(2)
