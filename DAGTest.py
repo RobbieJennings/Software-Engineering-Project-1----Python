@@ -7,7 +7,7 @@ class TestEmpty(unittest.TestCase):
 
     def test(self):
         dag = DAG.DAG()
-        self.assertTrue(dag.graph == {})
+        self.assertTrue(dag.get_graph() == {})
 
 
 class TestSingleNode(unittest.TestCase):
@@ -16,7 +16,7 @@ class TestSingleNode(unittest.TestCase):
     def test(self):
         dag = DAG.DAG()
         self.assertTrue(dag.add_node('a'))
-        self.assertTrue(dag.graph == {'a': set()})
+        self.assertTrue(dag.get_graph() == {'a': set()})
 
 
 class TestSingleEdge(unittest.TestCase):
@@ -27,7 +27,7 @@ class TestSingleEdge(unittest.TestCase):
         self.assertTrue(dag.add_node('a'))
         self.assertTrue(dag.add_node('b'))
         self.assertTrue(dag.add_edge('a', 'b'))
-        self.assertTrue(dag.graph == {'a': set('b'), 'b': set()})
+        self.assertTrue(dag.get_graph() == {'a': set('b'), 'b': set()})
 
 
 class TestMultipleEdges(unittest.TestCase):
@@ -41,7 +41,7 @@ class TestMultipleEdges(unittest.TestCase):
         self.assertTrue(dag.add_node('c'))
         self.assertTrue(dag.add_edge('a', 'b'))
         self.assertTrue(dag.add_edge('b', 'c'))
-        self.assertTrue(dag.graph == {'a': set(
+        self.assertTrue(dag.get_graph() == {'a': set(
             'b'), 'b': set('c'), 'c': set()})
 
 
@@ -61,7 +61,7 @@ class TestMultipleEdgedNodes(unittest.TestCase):
         self.assertTrue(dag.add_edge('b', 'c'))
         self.assertTrue(dag.add_edge('b', 'd'))
         self.assertTrue(dag.add_edge('d', 'e'))
-        self.assertTrue(dag.graph == {'a': set({'b', 'c'}), 'b': set(
+        self.assertTrue(dag.get_graph() == {'a': set({'b', 'c'}), 'b': set(
             {'c', 'd'}), 'c': set(), 'd': set('e'), 'e': set()})
 
 

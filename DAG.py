@@ -9,7 +9,7 @@ def itervalues(d, **kw):
     return iter(d.values(**kw))
 
 
-class DAG(object):
+class DAG():
     """ Directed acyclic graph implementation. """
 
     def __init__(self):
@@ -88,3 +88,6 @@ class DAG(object):
         if len(sorted) == len(graph):
             return sorted
         return False
+
+    def get_graph(self):
+        return self.graph
