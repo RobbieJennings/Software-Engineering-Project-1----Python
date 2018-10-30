@@ -1,3 +1,6 @@
+from collections import OrderedDict
+
+
 class Node():
     """A node used for populating a Binary Tree"""
 
@@ -67,3 +70,19 @@ class Node():
             string += self.right.getTreeString()
         string += ")"
         return string
+
+    def getGraph(self):
+        """return an OrderedDict represents the tree with node as root"""
+        graph = OrderedDict()
+        self.compileGraph(graph, self)
+        return graph
+
+    def compileGraph(self, graph, node):
+        """recursively adds nodes to graph"""
+        graph[node.getKey()] = set()
+        if node.getLeftChild() is not None:
+            graph[node.getKey()].add(node.getLeftChild().getKey())
+            self.compileGraph(graph, node.getLeftChild())
+        if node.getRightChild() is not None:
+            graph[node.getKey()].add(node.getRightChild().getKey())
+            self.compileGraph(graph, node.getRightChild())

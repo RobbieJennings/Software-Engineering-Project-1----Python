@@ -134,5 +134,28 @@ class TestInsertingBetweenNodes(unittest.TestCase):
                          .getParent().getKey(), 9)
 
 
+class TestGetGraph(unittest.TestCase):
+    """Tests converting binary tree to graph works"""
+
+    def test(self):
+        root = BinaryTree.Node(1)
+        a = BinaryTree.Node(2)
+        b = BinaryTree.Node(3)
+        c = BinaryTree.Node(4)
+        d = BinaryTree.Node(5)
+        e = BinaryTree.Node(6)
+        f = BinaryTree.Node(7)
+
+        root.insertLeft(a)
+        root.insertRight(b)
+        a.insertLeft(c)
+        a.insertRight(d)
+        b.insertLeft(e)
+        b.insertRight(f)
+
+        self.assertEqual(root.getGraph(), {1: set([2, 3]), 2: set(
+            [4, 5]), 4: set(), 5: set(), 3: set([6, 7]), 6: set(), 7: set()})
+
+
 if __name__ == '__main__':
     unittest.main()
