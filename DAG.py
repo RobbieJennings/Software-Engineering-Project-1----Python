@@ -9,10 +9,6 @@ def itervalues(d, **kw):
     return iter(d.values(**kw))
 
 
-class DAGValidationError(Exception):
-    pass
-
-
 class DAG(object):
     """ Directed acyclic graph implementation. """
 
@@ -25,26 +21,27 @@ class DAG(object):
         if not graph:
             graph = self.graph
         if node_name in graph:
-            raise KeyError('node %s already exists' % node_name)
+            return False
         graph[node_name] = set()
+        return True
 
     def add_edge(self, ind_node, dep_node, graph=None):
         """ Add an edge (dependency) between the specified nodes. """
         if not graph:
             graph = self.graph
         if ind_node not in graph or dep_node not in graph:
-            raise KeyError('one or more nodes do not exist in graph')
+            return False
         test_graph = deepcopy(graph)
         test_graph[ind_node].add(dep_node)
-        is_valid, message = self.validate(test_graph)
-        if is_valid:
+        if self.validate(test_graph):
             graph[ind_node].add(dep_node)
-        else:
-            raise DAGValidationError()
+            return True
+        return False
 
     def reset_graph(self):
         """ Restore the graph to an empty state. """
         self.graph = OrderedDict()
+        return True
 
     def ind_nodes(self, graph=None):
         """ Returns a list of all nodes in the graph with no dependencies. """
@@ -57,15 +54,13 @@ class DAG(object):
         return [node for node in graph.keys() if node not in dependent_nodes]
 
     def validate(self, graph=None):
-        """ Returns (Boolean, message) of whether DAG is valid. """
+        """ Returns Boolean of whether DAG is valid. """
         graph = graph if graph is not None else self.graph
         if len(self.ind_nodes(graph)) == 0:
-            return (False, 'no independent nodes detected')
-        try:
-            self.topological_sort(graph)
-        except ValueError:
-            return (False, 'failed topological sort')
-        return (True, 'valid')
+            return False
+        if self.topological_sort(graph):
+            return True
+        return False
 
     def topological_sort(self, graph=None):
         """ Returns a topological ordering of the DAG.
@@ -98,5 +93,4 @@ class DAG(object):
 
         if len(sorted) == len(graph):
             return sorted
-        else:
-            raise ValueError('graph is not acyclic')
+        return False
