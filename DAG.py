@@ -45,9 +45,6 @@ class DAG(object):
 
     def ind_nodes(self, graph=None):
         """ Returns a list of all nodes in the graph with no dependencies. """
-        if graph is None:
-            graph = self.graph
-
         dependent_nodes = set(
             node for dependents in itervalues(graph) for node in dependents
         )
@@ -66,9 +63,6 @@ class DAG(object):
         """ Returns a topological ordering of the DAG.
         Raises an error if this is not possible (graph is not valid).
         """
-        if graph is None:
-            graph = self.graph
-
         in_degree = {}
         for u in graph:
             in_degree[u] = 0

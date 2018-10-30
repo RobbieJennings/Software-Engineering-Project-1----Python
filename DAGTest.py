@@ -7,7 +7,7 @@ class TestEmpty(unittest.TestCase):
 
     def test(self):
         dag = DAG.DAG()
-        assert dag.graph == {}
+        self.assertTrue(dag.graph == {})
 
 
 class TestSingleNode(unittest.TestCase):
@@ -15,8 +15,8 @@ class TestSingleNode(unittest.TestCase):
 
     def test(self):
         dag = DAG.DAG()
-        assert dag.add_node('a')
-        assert dag.graph == {'a': set()}
+        self.assertTrue(dag.add_node('a'))
+        self.assertTrue(dag.graph == {'a': set()})
 
 
 class TestSingleEdge(unittest.TestCase):
@@ -24,10 +24,10 @@ class TestSingleEdge(unittest.TestCase):
 
     def test(self):
         dag = DAG.DAG()
-        assert dag.add_node('a')
-        assert dag.add_node('b')
-        assert dag.add_edge('a', 'b')
-        assert dag.graph == {'a': set('b'), 'b': set()}
+        self.assertTrue(dag.add_node('a'))
+        self.assertTrue(dag.add_node('b'))
+        self.assertTrue(dag.add_edge('a', 'b'))
+        self.assertTrue(dag.graph == {'a': set('b'), 'b': set()})
 
 
 class TestMultipleEdges(unittest.TestCase):
@@ -36,12 +36,13 @@ class TestMultipleEdges(unittest.TestCase):
 
     def test(self):
         dag = DAG.DAG()
-        assert dag.add_node('a')
-        assert dag.add_node('b')
-        assert dag.add_node('c')
-        assert dag.add_edge('a', 'b')
-        assert dag.add_edge('b', 'c')
-        assert dag.graph == {'a': set('b'), 'b': set('c'), 'c': set()}
+        self.assertTrue(dag.add_node('a'))
+        self.assertTrue(dag.add_node('b'))
+        self.assertTrue(dag.add_node('c'))
+        self.assertTrue(dag.add_edge('a', 'b'))
+        self.assertTrue(dag.add_edge('b', 'c'))
+        self.assertTrue(dag.graph == {'a': set(
+            'b'), 'b': set('c'), 'c': set()})
 
 
 class TestMultipleEdgedNodes(unittest.TestCase):
@@ -50,18 +51,57 @@ class TestMultipleEdgedNodes(unittest.TestCase):
 
     def test(self):
         dag = DAG.DAG()
-        assert dag.add_node('a')
-        assert dag.add_node('b')
-        assert dag.add_node('c')
-        assert dag.add_node('d')
-        assert dag.add_node('e')
-        assert dag.add_edge('a', 'b')
-        assert dag.add_edge('a', 'c')
-        assert dag.add_edge('b', 'c')
-        assert dag.add_edge('b', 'd')
-        assert dag.add_edge('d', 'e')
-        assert dag.graph == {'a': set({'b', 'c'}), 'b': set(
-            {'c', 'd'}), 'c': set(), 'd': set('e'), 'e': set()}
+        self.assertTrue(dag.add_node('a'))
+        self.assertTrue(dag.add_node('b'))
+        self.assertTrue(dag.add_node('c'))
+        self.assertTrue(dag.add_node('d'))
+        self.assertTrue(dag.add_node('e'))
+        self.assertTrue(dag.add_edge('a', 'b'))
+        self.assertTrue(dag.add_edge('a', 'c'))
+        self.assertTrue(dag.add_edge('b', 'c'))
+        self.assertTrue(dag.add_edge('b', 'd'))
+        self.assertTrue(dag.add_edge('d', 'e'))
+        self.assertTrue(dag.graph == {'a': set({'b', 'c'}), 'b': set(
+            {'c', 'd'}), 'c': set(), 'd': set('e'), 'e': set()})
+
+
+class TestNotCreateCycle(unittest.TestCase):
+    """Tests that creating cycles does not work"""
+
+    def test(self):
+        dag = DAG.DAG()
+        self.assertTrue(dag.add_node('a'))
+        self.assertTrue(dag.add_node('b'))
+        self.assertTrue(dag.add_node('c'))
+        self.assertTrue(dag.add_node('d'))
+        self.assertTrue(dag.add_edge('a', 'b'))
+        self.assertTrue(dag.add_edge('b', 'c'))
+        self.assertFalse(dag.add_edge('c', 'a'))
+        self.assertTrue(dag.add_edge('c', 'd'))
+        self.assertFalse(dag.add_edge('d', 'c'))
+        self.assertFalse(dag.add_edge('d', 'a'))
+
+
+class TestNotAddExistingNode(unittest.TestCase):
+    """Tests that adding a pre-existing node does not work"""
+
+    def test(self):
+        dag = DAG.DAG()
+        self.assertTrue(dag.add_node('a'))
+        self.assertTrue(dag.add_node('b'))
+        self.assertFalse(dag.add_node('a'))
+
+
+class TestNotAddImpossibleEdge(unittest.TestCase):
+    """Tests that adding an edge between
+    non-existant nodes does not work"""
+
+    def test(self):
+        dag = DAG.DAG()
+        self.assertTrue(dag.add_node('a'))
+        self.assertTrue(dag.add_node('b'))
+        self.assertFalse(dag.add_edge('a', 'c'))
+        self.assertFalse(dag.add_edge('c', 'a'))
 
 
 if __name__ == '__main__':
