@@ -2,11 +2,11 @@
 
 from copy import deepcopy
 from collections import deque
+from collections import OrderedDict
 
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict
+
+def itervalues(d, **kw):
+    return iter(d.values(**kw))
 
 
 class DAGValidationError(Exception):
@@ -45,6 +45,16 @@ class DAG(object):
     def reset_graph(self):
         """ Restore the graph to an empty state. """
         self.graph = OrderedDict()
+
+    def ind_nodes(self, graph=None):
+        """ Returns a list of all nodes in the graph with no dependencies. """
+        if graph is None:
+            graph = self.graph
+
+        dependent_nodes = set(
+            node for dependents in itervalues(graph) for node in dependents
+        )
+        return [node for node in graph.keys() if node not in dependent_nodes]
 
     def validate(self, graph=None):
         """ Returns (Boolean, message) of whether DAG is valid. """
@@ -90,6 +100,3 @@ class DAG(object):
             return sorted
         else:
             raise ValueError('graph is not acyclic')
-
-    def size(self):
-        return len(self.graph)
