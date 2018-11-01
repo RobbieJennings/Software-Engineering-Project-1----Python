@@ -21,8 +21,8 @@ class TestLCAWithRootNode(unittest.TestCase):
         root.insertLeft(a)
         root.insertRight(b)
 
-        self.assertEqual(LCA.findLCA(root, root.getKey(), 2), 1)
-        self.assertEqual(LCA.findLCA(root, 3, root.getKey()), 1)
+        self.assertEqual(LCA.findLCA(root.getGraph(), root.getKey(), 2), 1)
+        self.assertEqual(LCA.findLCA(root.getGraph(), 3, root.getKey()), 1)
 
 
 class TestLCAWithEqualNodes(unittest.TestCase):
@@ -37,8 +37,8 @@ class TestLCAWithEqualNodes(unittest.TestCase):
         root.insertLeft(a)
         root.insertRight(b)
 
-        self.assertEqual(LCA.findLCA(root, 2, 2), 2)
-        self.assertEqual(LCA.findLCA(root, 3, 3), 3)
+        self.assertEqual(LCA.findLCA(root.getGraph(), 2, 2), 2)
+        self.assertEqual(LCA.findLCA(root.getGraph(), 3, 3), 3)
 
 
 class TestLCAWithAncestor(unittest.TestCase):
@@ -61,8 +61,8 @@ class TestLCAWithAncestor(unittest.TestCase):
         b.insertLeft(e)
         b.insertRight(f)
 
-        self.assertEqual(LCA.findLCA(root, 2, 5), 2)
-        self.assertEqual(LCA.findLCA(root, 3, 6), 3)
+        self.assertEqual(LCA.findLCA(root.getGraph(), 2, 5), 2)
+        self.assertEqual(LCA.findLCA(root.getGraph(), 3, 6), 3)
 
 
 class TestLCAWithNoPath(unittest.TestCase):
@@ -85,8 +85,8 @@ class TestLCAWithNoPath(unittest.TestCase):
         b.insertLeft(e)
         b.insertRight(f)
 
-        self.assertEqual(LCA.findLCA(root, 1, 8), -1)
-        self.assertEqual(LCA.findLCA(b, 6, 4), -1)
+        self.assertEqual(LCA.findLCA(root.getGraph(), 1, 8), -1)
+        self.assertEqual(LCA.findLCA(b.getGraph(), 6, 4), -1)
 
 
 class TestLCAWithPath(unittest.TestCase):
@@ -109,10 +109,10 @@ class TestLCAWithPath(unittest.TestCase):
         b.insertLeft(e)
         b.insertRight(f)
 
-        self.assertEqual(LCA.findLCA(root, 4, 5), 2)
-        self.assertEqual(LCA.findLCA(root, 4, 6), 1)
-        self.assertEqual(LCA.findLCA(root, 3, 4), 1)
-        self.assertEqual(LCA.findLCA(root, 2, 4), 2)
+        self.assertEqual(LCA.findLCA(root.getGraph(), 4, 5), 2)
+        self.assertEqual(LCA.findLCA(root.getGraph(), 4, 6), 1)
+        self.assertEqual(LCA.findLCA(root.getGraph(), 3, 4), 1)
+        self.assertEqual(LCA.findLCA(root.getGraph(), 2, 4), 2)
 
 
 if __name__ == '__main__':

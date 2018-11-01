@@ -1,62 +1,64 @@
-def findPath(root, path, k):
-    """Finds the path from k node to given root of the tree.
-    Stores the path in a list path[],
-    Returns true if path exists,
-    Otherwise Returns False
-
-    Keyword arguments:
-    root -- the Node object that represents the root of the tree
-    path -- the array in which to insert the path
-    k -- the key of the Node object intended to be reached"""
-
-    # Base Case
-    if root is None:
-        return False
-
-    # Store this node in path vector. The node will be
-    # removed if not in path from root to k
-    path.append(root.getKey())
-
-    # See if the k is same as root's key
-    if root.getKey() == k:
-        return True
-
-    # Check if k is found in left or right subtree
-    right = root.getRightChild()
-    left = root.getLeftChild()
-    if ((left is not None and findPath(left, path, k))
-            or (right is not None and findPath(right, path, k))):
-        return True
-
-    # If not present in subtree rooted with root, remove
-    # root from path and return False
-    path.pop()
-    return False
-
-
-def findLCA(root, n1, n2):
+def findLCA(graph, n1, n2):
     """Returns Lowest Common Ancestor of n1 and n2
     if n1 and n2 are present in the given tree,
     Otherwise returns -1
 
-    Keyword attributes:
+    Keyword arguments:
     root -- the Node object that is the root of the Tree
     n1 -- the first Node Object to search for the Lowest Common Ancestor
     n2 -- the second Node Object to search for the Lowest Common Ancestor"""
-
-    # To store paths to n1 and n2 from the root
-    path1 = []
-    path2 = []
-
-    # Find paths from root to n1 and root to n2.
-    # If either n1 or n2 is not present , return -1
-    if (not findPath(root, path1, n1) or not findPath(root, path2, n2)):
+    if graph is None:
         return -1
 
-    # Compare the paths to get the first different value
-    i = 0
-    while(i < len(path1) and i < len(path2)):
-        if path1[i] != path2[i]:
-            break
-        i += 1
-    return path1[i - 1]
+    if n1 not in graph or n2 not in graph:
+        return -1
+
+    n1index = graph.keys().index(n1)
+    n2index = graph.keys().index(n2)
+    dist = getDistances(graph)
+    shortestPath = float("inf")
+    lca = None
+
+    for i in range(0, len(dist)):
+        if dist[i][n1index] + dist[i][n2index] < shortestPath:
+            shortestPath = dist[i][n1index] + dist[i][n2index]
+            lca = graph.keys()[i]
+
+    return lca
+
+
+def getDistances(graph):
+    """Does Floyd Warshall's Algorithm and returns an array of the
+    shortest paths from each node in the graph to each other node
+
+    Keyword arguments:
+    graph -- an OrderedDict representation of the Binary Tree or DAG"""
+    dist = []
+
+    # Initialise nodes
+    for i in range(0, len(graph)):
+        dist.insert(i, [])
+        for j in range(0, len(graph)):
+            dist[i].insert(j, float("inf"))
+
+    # Insert Nodes
+    for i in range(1, len(graph)+1):
+        indexi = graph.keys().index(i)
+        dist[indexi][indexi] = 0
+
+    # Insert Edges
+    for i in range(1, len(graph)+1):
+        indexi = graph.keys().index(i)
+        for j in graph[i]:
+            indexj = graph.keys().index(j)
+            dist[indexi][indexj] = 1
+
+    # Floyd Warshall Algorithm
+    v = len(dist)
+    for k in range(0, v):
+        for i in range(0, v):
+            for j in range(0, v):
+                if dist[i][j] > dist[i][k] + dist[k][j]:
+                    dist[i][j] = dist[i][k] + dist[k][j]
+
+    return dist
