@@ -13,15 +13,15 @@ def findLCA(graph, n1, n2):
     if n1 not in graph or n2 not in graph:
         return -1
 
-    n1index = graph.keys().index(n1)
-    n2index = graph.keys().index(n2)
+    indexn1 = graph.keys().index(n1)
+    indexn2 = graph.keys().index(n2)
     dist = getDistances(graph)
     shortestPath = float("inf")
     lca = None
 
     for i in range(0, len(dist)):
-        if dist[i][n1index] + dist[i][n2index] < shortestPath:
-            shortestPath = dist[i][n1index] + dist[i][n2index]
+        if dist[i][indexn1] + dist[i][indexn2] < shortestPath:
+            shortestPath = dist[i][indexn1] + dist[i][indexn2]
             lca = graph.keys()[i]
 
     return lca
@@ -35,20 +35,16 @@ def getDistances(graph):
     graph -- an OrderedDict representation of the Binary Tree or DAG"""
     dist = []
 
-    # Initialise nodes
+    # Initialise array
     for i in range(0, len(graph)):
         dist.insert(i, [])
         for j in range(0, len(graph)):
             dist[i].insert(j, float("inf"))
 
-    # Insert Nodes
-    for i in range(1, len(graph)+1):
+    # Insert nodes and edges
+    for i in graph:
         indexi = graph.keys().index(i)
         dist[indexi][indexi] = 0
-
-    # Insert Edges
-    for i in range(1, len(graph)+1):
-        indexi = graph.keys().index(i)
         for j in graph[i]:
             indexj = graph.keys().index(j)
             dist[indexi][indexj] = 1

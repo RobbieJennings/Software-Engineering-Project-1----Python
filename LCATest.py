@@ -1,5 +1,6 @@
 import unittest
 import BinaryTree
+import DAG
 import LCA
 
 
@@ -113,6 +114,28 @@ class TestLCAWithPath(unittest.TestCase):
         self.assertEqual(LCA.findLCA(root.getGraph(), 4, 6), 1)
         self.assertEqual(LCA.findLCA(root.getGraph(), 3, 4), 1)
         self.assertEqual(LCA.findLCA(root.getGraph(), 2, 4), 2)
+
+
+class TestLCAWithDag(unittest.TestCase):
+    """Tests that Lowest Common Ancestor works
+    with a Directed Acyclic Graph"""
+
+    def test(self):
+        dag = DAG.DAG()
+        self.assertTrue(dag.add_node('a'))
+        self.assertTrue(dag.add_node('b'))
+        self.assertTrue(dag.add_node('c'))
+        self.assertTrue(dag.add_node('d'))
+        self.assertTrue(dag.add_node('e'))
+        self.assertTrue(dag.add_node('f'))
+        self.assertTrue(dag.add_edge('a', 'b'))
+        self.assertTrue(dag.add_edge('a', 'd'))
+        self.assertTrue(dag.add_edge('a', 'f'))
+        self.assertTrue(dag.add_edge('b', 'c'))
+        self.assertTrue(dag.add_edge('b', 'd'))
+        self.assertTrue(dag.add_edge('d', 'e'))
+        self.assertTrue(dag.add_edge('f', 'b'))
+        self.assertTrue(LCA.findLCA(dag.get_graph(), 'c', 'e') == 'b')
 
 
 if __name__ == '__main__':
